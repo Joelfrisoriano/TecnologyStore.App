@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Componentes\Titulos\Titulos.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Componentes\Titulos\Titulos.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Componentes\Titulos\Titulos.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Componentes\Titulos\Titulos.razor" />
+  </ItemGroup>
+
+</Project>

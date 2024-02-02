@@ -1,0 +1,40 @@
+﻿@*<h3>Productos</h3>*@
+
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Smartphones</h5>
+        <p class="card-text">Descubre los últimos modelos de smartphones que te mantendrán conectado y a la vanguardia de la tecnología móvil.</p>
+    <a href="#" class="btn btn-primary">Más Información</a>
+  </div>
+</div>
+
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+        <h5 class="card-title">Dispositivos Inteligentes para tú Hogar</h5>
+        <p class="card-text">Transforma tu hogar en un espacio inteligente con nuestra selección de dispositivos conectados para hacer tu vida más fácil.</p>
+        <a href="#" class="btn btn-primary">Más Información</a>
+  </div>
+</div>
+
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+        <h5 class="card-title">Accesorios de Alta Tecnología</h5>
+        <p class="card-text">Complementa tus dispositivos con accesorios que potenciarán tu experiencia, desde auriculares inalámbricos hasta cargadores de carga rápida.</p>
+        <a href="#" class="btn btn-primary">Más Información</a>
+  </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string SmartphonesInnovadores { get; set; }
+
+    [Parameter]
+    public string DispositivosHogar { get; set; }
+
+    [Parameter]
+    public string AccesoriosAltaTecnologia { get; set; }
+}
