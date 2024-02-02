@@ -7,19 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Componentes\Titulos\Titulos.razor" />
+    <Compile Remove="Componentes\Titulos\**" />
+    <Content Remove="Componentes\Titulos\**" />
+    <EmbeddedResource Remove="Componentes\Titulos\**" />
+    <None Remove="Componentes\Titulos\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Componentes\Titulos\Titulos.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Componentes\Titulos\Titulos.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Componentes\Titulos\Titulos.razor" />
+    <Content Remove="Pages\Counter.razor" />
+    <Content Remove="Pages\FetchData.razor" />
+    <Content Remove="Pages\Inicio.razor" />
+    <Content Remove="wwwroot\css\Productos.razor.css" />
   </ItemGroup>
 
 </Project>
