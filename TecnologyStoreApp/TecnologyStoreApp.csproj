@@ -7,17 +7,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Componentes\NewFolder1\**" />
+    <Compile Remove="Componentes\NewFolder\**" />
     <Compile Remove="Componentes\Titulos\**" />
+    <Content Remove="Componentes\NewFolder1\**" />
+    <Content Remove="Componentes\NewFolder\**" />
     <Content Remove="Componentes\Titulos\**" />
+    <EmbeddedResource Remove="Componentes\NewFolder1\**" />
+    <EmbeddedResource Remove="Componentes\NewFolder\**" />
     <EmbeddedResource Remove="Componentes\Titulos\**" />
+    <None Remove="Componentes\NewFolder1\**" />
+    <None Remove="Componentes\NewFolder\**" />
     <None Remove="Componentes\Titulos\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Componentes\Carousel.razor" />
+    <Content Remove="Componentes\Promocion\Carousel.razor" />
+    <Content Remove="Pages\Carousel.razor" />
     <Content Remove="Pages\Counter.razor" />
     <Content Remove="Pages\FetchData.razor" />
     <Content Remove="Pages\Inicio.razor" />
+    <Content Remove="Pages\Tecnology.razor" />
     <Content Remove="wwwroot\css\Productos.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Componentes\Carousel.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Componentes\Carousel.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Carousel.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Carousel.razor" />
   </ItemGroup>
 
 </Project>
