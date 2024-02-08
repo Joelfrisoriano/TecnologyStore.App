@@ -28,6 +28,7 @@
     <Content Remove="Pages\Counter.razor" />
     <Content Remove="Pages\FetchData.razor" />
     <Content Remove="Pages\Inicio.razor" />
+    <Content Remove="Pages\Ofertas Rapidas.razor" />
     <Content Remove="Pages\Tecnology.razor" />
     <Content Remove="wwwroot\css\Productos.razor.css" />
   </ItemGroup>
