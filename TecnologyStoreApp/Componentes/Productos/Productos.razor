@@ -1,32 +1,52 @@
 ﻿@*<h3>Productos</h3>*@
 
-<div class="card" style="width: 18rem; color:rgb(102, 52, 216);">
-    <img src="https://blog.phonehouse.es/wp-content/uploads/2018/03/Moviles-300-euros.jpg" class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">Smartphones</h5>
-        <p class="card-text" style="color: black;">Descubre los últimos modelos de smartphones que te mantendrán conectado y a la vanguardia de la tecnología móvil.</p>
-        <a href="/Smartphones" class="btn btn-primary">Más Información</a>
+<style>
+   .card {
+        width: 100%; /* Ancho deseado del contenedor */
+        height: 90%; /* Altura deseada del contenedor */
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<div class="container">
+    @*Linea 1*@
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-4">
+            <div class="card img-fluid" style="border-radius:6px;border-color: rgb(83,202,236); ">
+                <img src="https://blog.phonehouse.es/wp-content/uploads/2018/03/Moviles-300-euros.jpg" style="background-size:cover; object-fit:cover; height:300px;" class="card-img-top" alt="...">
+                <div class="card-body" style="background: linear-gradient(90deg, rgba(83,202,236,1) 0%, rgba(120,195,237,1) 4%, rgba(0,212,255,1) 100%); width:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                    <h5 class="card-title" style="font-weight:bold; font-size:20px; text-align:center; color:white">Smartphones</h5>
+                    <p class="card-text" style="font-weight:bold; font-size:20px">Descubre los últimos modelos de smartphones que te mantendrán conectado y a la vanguardia de la tecnología móvil</p>
+                    <a href="/Smartphones" class="btn btn-primary">Ver Productos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card img-fluid" style="border-radius:6px;border-color: rgb(83,202,236);">
+                <img src="https://s3.abcstatics.com/media/tecnologia/2018/12/14/montaje-iot-kHnF--940x705@abc.jpg" style="background-size:cover; object-fit:cover; height:300px;" class="card-img-top" alt="...">
+                <div class="card-body" style="background: linear-gradient(90deg, rgba(83,202,236,1) 0%, rgba(120,195,237,1) 4%, rgba(0,212,255,1) 100%); width:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                    <h5 class="card-title" style="font-weight:bold; font-size:20px; text-align:center; color:white">Dispositivos Inteligentes para tú Hogar</h5>
+                    <p class="card-text" style="font-weight:bold; font-size:20px">Transforma tu hogar en un espacio inteligente con nuestra selección de dispositivos para hacer tu vida más fácil.</p>
+                    <a href="/Dispositivoshogar" class="btn btn-primary">Ver Productos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card img-fluid" style="border-radius:6px;border-color: rgb(83,202,236);">
+                <img src="https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2018/11/50-regalos-tecnologicos-menos-50-euros.jpg?tf=3840x" style="background-size:cover; object-fit:cover; height:300px;" class="card-img-top" alt="...">
+                <div class="card-body" style="background: linear-gradient(90deg, rgba(83,202,236,1) 0%, rgba(120,195,237,1) 4%, rgba(0,212,255,1) 100%); width:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                    <h5 class="card-title" style="font-weight:bold; font-size:20px; text-align:center; color:white">Accesorios de Alta Tecnología</h5>
+                    <p class="card-text" style="font-weight:bold; font-size:20px">Complementa tus dispositivos con accesorios que potenciarán tu experiencia tecnologica.</p>
+                    <a href="/Accesoriostecnologicos" class="btn btn-primary">Ver Productos</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<div class="card" style="width: 18rem;color:rgb(102, 52, 216);">
-    <img src="https://s3.abcstatics.com/media/tecnologia/2018/12/14/montaje-iot-kHnF--940x705@abc.jpg" class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">Dispositivos Inteligentes para tú Hogar</h5>
-        <p class="card-text" style="color: black;">Transforma tu hogar en un espacio inteligente con nuestra selección de dispositivos conectados para hacer tu vida más fácil.</p>
-        <a href="#" class="btn btn-primary">Más Información</a>
-    </div>
-</div>
-
-<div class="card" style="width: 18rem;color:rgb(102, 52, 216);">
-    <img src="https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2018/11/50-regalos-tecnologicos-menos-50-euros.jpg?tf=3840x" class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">Accesorios de Alta Tecnología</h5>
-        <p class="card-text" style="color: black;">Complementa tus dispositivos con accesorios que potenciarán tu experiencia, desde auriculares inalámbricos hasta cargadores de carga rápida.</p>
-        <a href="#" class="btn btn-primary">Más Información</a>
-    </div>
-</div>
-
 
 @code {
 
