@@ -1,17 +1,26 @@
 ﻿@page "/facturacion"
+<div>
+    <a href="/Productos" class="btn btn-primary"> <i class="oi oi-arrow-thick-left"></i> Atras</a>
+</div>
 
 <h3>Cotización</h3>
 
 <div class="row">
-    <div class="col">
+    <div class="col" style="background-color:blue; width:300px;height300px;">
         <h4>Producto Seleccionado</h4>
         <div class="producto">
-            <img src="@ProductoImagenUrl" alt="@ProductoNombre" />
-            <p>@ProductoNombre</p>
+            <img class="img-fluid" style="background-size:cover; width:auto;height:auto" src="@selectedImageUrl" alt="Producto seleccionado" />
+            <p>@*@ProductoNombre*@</p>
         </div>
     </div>
     <div class="col">
         <h4>Información de la Cotización</h4>
+        <select class="form-select mb-3" @onchange="ChangeImage">
+            @foreach (var imagen in imagenesDisponibles)
+            {
+                <option value="@imagen.Url">@imagen.Nombre</option>
+            }
+        </select>
         <div>
             <label>Nombre del Cliente:</label>
             <input type="text" @bind="nombreCliente" />
@@ -23,17 +32,17 @@
         <div>
             <label>Color:</label>
             <select @bind="colorSeleccionado">
-                @foreach (var color in coloresDisponibles)
+                @*@foreach (var color in coloresDisponibles)
                 {
                     <option value="@color">@color</option>
-                }
+                }*@
             </select>
         </div>
         <div>
             <label>Método de Pago:</label>
-            <input type="radio" id="efectivo" name="metodoPago" value="Efectivo" @*@bind="metodoPago"*@ />
+            <input type="radio" id="efectivo" name="metodoPago" value="Efectivo" @*@bind="metodoPago*@" />
             <label for="efectivo">Efectivo</label>
-            <input type="radio" id="tarjeta" name="metodoPago" value="Tarjeta" @*@bind="metodoPago"*@ />
+            <input type="radio" id="tarjeta" name="metodoPago" value="Tarjeta" @*@bind="metodoPago*@" />
             <label for="tarjeta">Tarjeta</label>
         </div>
         <button @onclick="EnviarCompra">Enviar Compra</button>
@@ -42,16 +51,34 @@
 </div>
 
 @code {
-    [Parameter]
-    public string ProductoNombre { get; set; }
-
-    [Parameter]
-    public string ProductoImagenUrl { get; set; }
-
     private string nombreCliente;
     private string direccionEntrega;
     private string colorSeleccionado;
     private string metodoPago;
+    private string selectedImageUrl;
+
+    // Clase para representar las imágenes disponibles
+    public class ImagenDisponible
+    {
+        public string Nombre { get; set; }
+        public string Url { get; set; }
+    }
+
+    // Lista de imágenes disponibles
+    private List<ImagenDisponible> imagenesDisponibles = new List<ImagenDisponible>
+    {
+        new ImagenDisponible { Nombre = "iPhone 14 Plus 256GB", Url = "https://mobile-city.pl/pol_pl_Apple-iPhone-14-6-128GB-5G-Ksiezycowa-Poswiata-Starlight-35329_1.jpg" },
+        new ImagenDisponible { Nombre = "Samsung Galaxy A54", Url = "https://techpuls360.com/wp-content/uploads/2023/03/6411903c327e4-1-scaled.jpg" },
+        // Agrega más imágenes según sea necesario
+    };
+
+    // Función para cambiar la imagen seleccionada
+    private void ChangeImage(ChangeEventArgs e)
+    {
+        var selectedImageUrl = e.Value.ToString();
+        selectedImageUrl = selectedImageUrl.Replace("Microsoft.AspNetCore.Components.Web.", ""); // Corrige el prefijo agregado por Blazor
+        this.selectedImageUrl = selectedImageUrl;
+    }
 
     private void EnviarCompra()
     {
@@ -63,7 +90,5 @@
     {
         // Aquí puedes agregar la lógica para cancelar la compra
     }
-
-    private List<string> coloresDisponibles = new List<string> { "Rojo", "Azul", "Verde" };
 }
 
