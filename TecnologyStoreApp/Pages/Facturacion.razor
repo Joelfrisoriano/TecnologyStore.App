@@ -1,52 +1,68 @@
 ﻿@page "/facturacion"
-<div>
-    <a href="/Productos" class="btn btn-primary"> <i class="oi oi-arrow-thick-left"></i> Atras</a>
-</div>
 
-<h3>Cotización</h3>
-
-<div class="row">
-    <div class="col" style="background-color:blue; width:300px;height300px;">
-        <h4>Producto Seleccionado</h4>
+<h1 style="color: #0974f1;text-align:center; font-family:sans-serif;">
+    F a c t u r a c i ó n
+</h1>
+<br />
+<div class="row" style="background-color: whitesmoke;font-weight:bold;">
+    <div class="col" style="background-color:darkgray; width:300px;height:380px;border-radius:7px;">
         <div class="producto">
-            <img class="img-fluid" style="background-size:cover; width:auto;height:auto" src="@selectedImageUrl" alt="Producto seleccionado" />
-            <p>@*@ProductoNombre*@</p>
+            <img class="img-fluid" style="background-size:cover; width:100%;height:350px;border-radius:7px;margin-top:15px;" src="@selectedImageUrl" alt="Seleccione producto" />
         </div>
     </div>
-    <div class="col">
-        <h4>Información de la Cotización</h4>
+    <div class="col" style="height:100%;border-radius:7px;">
+        <h4>Detalles de la compra</h4>
+        <h4>Seleccione su producto</h4>
         <select class="form-select mb-3" @onchange="ChangeImage">
             @foreach (var imagen in imagenesDisponibles)
             {
                 <option value="@imagen.Url">@imagen.Nombre</option>
             }
         </select>
-        <div>
+        <div style="margin:5px;">
             <label>Nombre del Cliente:</label>
             <input type="text" @bind="nombreCliente" />
         </div>
-        <div>
+        <div style="margin:5px;">
             <label>Dirección de Entrega:</label>
             <input type="text" @bind="direccionEntrega" />
         </div>
-        <div>
+        <div style="margin:5px;">
+            <label>Producto seleccionado:</label>
+            <input type="text" @bind="nombreProductoSeleccionado" readonly />
+        </div>
+
+        <div style="margin:5px;">
             <label>Color:</label>
             <select @bind="colorSeleccionado">
-                @*@foreach (var color in coloresDisponibles)
+                @foreach (var color in coloresDisponibles)
                 {
                     <option value="@color">@color</option>
-                }*@
+                }
             </select>
         </div>
-        <div>
+        <div style="margin:5px;">
+            <label>Cantidad:</label>
+            <input type="number" @bind="cantidadSeleccionada" @oninput="CalcularTotal" min="1" />
+        </div>
+        <div style="margin:5px;">
+            <label>Precio:</label>
+            <input type="text" @bind="precioProductoSeleccionado" readonly />
+        </div>
+        <div style="margin:5px;">
+            <label>Total a pagar:</label>
+            <input type="text" @bind="totalAPagar" readonly />
+        </div>
+        <div style="margin:5px;">
             <label>Método de Pago:</label>
             <input type="radio" id="efectivo" name="metodoPago" value="Efectivo" @*@bind="metodoPago*@" />
             <label for="efectivo">Efectivo</label>
             <input type="radio" id="tarjeta" name="metodoPago" value="Tarjeta" @*@bind="metodoPago*@" />
             <label for="tarjeta">Tarjeta</label>
         </div>
-        <button @onclick="EnviarCompra">Enviar Compra</button>
-        <button @onclick="CancelarCompra">Cancelar</button>
+        <button class="btn btn-success" @onclick="EnviarCompra">Enviar Compra</button>
+        @*<button  @onclick="CancelarCompra">Cancelar</button>*@
+        <a href="/Smartphones" class="btn btn-danger"> Cancelar</a>
     </div>
 </div>
 
@@ -56,39 +72,59 @@
     private string colorSeleccionado;
     private string metodoPago;
     private string selectedImageUrl;
+    private string nombreProductoSeleccionado;
+    private decimal precioProductoSeleccionado;
+    private int cantidadSeleccionada = 1;
+    private decimal totalAPagar;
+
+    // Lista de imágenes disponibles
+    private List<ImagenDisponible> imagenesDisponibles = new List<ImagenDisponible>
+    {
+        new ImagenDisponible { Nombre = "iPhone 14 Plus 256GB", Url = "https://mobile-city.pl/pol_pl_Apple-iPhone-14-6-128GB-5G-Ksiezycowa-Poswiata-Starlight-35329_1.jpg", Precio = 13500 },
+        new ImagenDisponible { Nombre = "Samsung Galaxy A54", Url = "https://techpuls360.com/wp-content/uploads/2023/03/6411903c327e4-1-scaled.jpg", Precio = 10500 },
+        // Agrega más imágenes según sea necesario
+    };
+
+    // Lista de colores disponibles
+    private List<string> coloresDisponibles = new List<string> { "Negro", "Blanco", "Dorado" };
 
     // Clase para representar las imágenes disponibles
     public class ImagenDisponible
     {
         public string Nombre { get; set; }
         public string Url { get; set; }
+        public decimal Precio { get; set; }
     }
 
-    // Lista de imágenes disponibles
-    private List<ImagenDisponible> imagenesDisponibles = new List<ImagenDisponible>
-    {
-        new ImagenDisponible { Nombre = "iPhone 14 Plus 256GB", Url = "https://mobile-city.pl/pol_pl_Apple-iPhone-14-6-128GB-5G-Ksiezycowa-Poswiata-Starlight-35329_1.jpg" },
-        new ImagenDisponible { Nombre = "Samsung Galaxy A54", Url = "https://techpuls360.com/wp-content/uploads/2023/03/6411903c327e4-1-scaled.jpg" },
-        // Agrega más imágenes según sea necesario
-    };
-
-    // Función para cambiar la imagen seleccionada
+    // Función para cambiar la imagen seleccionada y actualizar el nombre del producto
     private void ChangeImage(ChangeEventArgs e)
     {
         var selectedImageUrl = e.Value.ToString();
         selectedImageUrl = selectedImageUrl.Replace("Microsoft.AspNetCore.Components.Web.", ""); // Corrige el prefijo agregado por Blazor
         this.selectedImageUrl = selectedImageUrl;
+
+        // Obtener el nombre del producto y su precio seleccionado
+        var selectedImage = imagenesDisponibles.FirstOrDefault(i => i.Url == selectedImageUrl);
+        if (selectedImage != null)
+        {
+            nombreProductoSeleccionado = selectedImage.Nombre;
+            precioProductoSeleccionado = selectedImage.Precio;
+            CalcularTotal(); // Llama a CalcularTotal después de establecer el producto seleccionado
+        }
     }
+
+
+    private void CalcularTotal()
+    {
+        totalAPagar = cantidadSeleccionada * precioProductoSeleccionado;
+    }
+
 
     private void EnviarCompra()
     {
         // Aquí puedes agregar la lógica para enviar la compra
         // Por ejemplo, puedes enviar los datos al servidor para procesar la cotización
     }
-
-    private void CancelarCompra()
-    {
-        // Aquí puedes agregar la lógica para cancelar la compra
-    }
 }
+
 
