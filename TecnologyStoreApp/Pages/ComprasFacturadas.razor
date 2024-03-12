@@ -41,9 +41,10 @@
                     <td>@detallesFactura.metodoPago</td>
                     <td>
                         <!-- Botón de eliminar -->
-                        <button class="btn btn-danger" @onclick="() => EliminarFactura(detallesFactura.FacturaId)">Eliminar</button>
+                        <button style="margin:5px; width:100%;" class="btn btn-danger" @onclick="() => EliminarFactura(detallesFactura.FacturaId)">Eliminar</button>
+                       
                         <!-- Botón de actualizar -->
-                      @*  <button class="btn btn-primary" @onclick="() => ActualizarFactura(detallesFactura.FacturaId)">Actualizar</button>*@
+                        <button style="margin:5px; width:100%;" class="btn btn-primary" @onclick="() => ActualizarFactura(detallesFactura.FacturaId, detallesFactura)">Actualizar</button>
                     </td>
                 </tr>
             }
@@ -89,21 +90,20 @@
         }
     }
 
-    //// Método para actualizar una factura
-    //private async Task ActualizarFactura(int facturaId)
-    //{
-    //    try
-    //    {
-    //        // Llamar al método para actualizar la factura utilizando el ID proporcionado
-    //        await metodos.ActualizarDetallesFacturaAsync(facturaId);
-    //        // Actualizar la lista de detalles de factura después de actualizar
-    //        detallesFactura = await metodos.GetDetallesFacturaAsync();
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        // Manejar cualquier excepción que pueda ocurrir
-    //        Console.WriteLine($"Error al actualizar la factura: {ex.Message}");
-    //    }
-    //}
+    // Método para actualizar una factura
+    private async Task ActualizarFactura(int facturaId, DetallesFactura detallesFacturaActualizado)
+    {
+        try
+        {
+            // Llamar al método para actualizar la factura utilizando el ID proporcionado y los detalles actualizados
+            await metodos.ActualizarDetallesFacturaAsync(facturaId, detallesFacturaActualizado);
+            // Actualizar la lista de detalles de factura después de actualizar
+            detallesFactura = await metodos.GetDetallesFacturaAsync();
+        }
+        catch (Exception ex)
+        {
+            // Manejar cualquier excepción que pueda ocurrir
+            Console.WriteLine($"Error al actualizar la factura: {ex.Message}");
+        }
+    }
 }
-
