@@ -25,6 +25,7 @@
     <Content Remove="Componentes\Carousel.razor" />
     <Content Remove="Componentes\Promocion\Carousel.razor" />
     <Content Remove="Pages\Carousel.razor" />
+    <Content Remove="Pages\ComprasRealizadas.razor" />
     <Content Remove="Pages\Counter.razor" />
     <Content Remove="Pages\FetchData.razor" />
     <Content Remove="Pages\Inicio.razor" />
@@ -40,10 +41,28 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Componentes\Carousel.razor" />
     <_ContentIncludedByDefault Remove="Pages\Carousel.razor" />
+    <_ContentIncludedByDefault Remove="Pages\ComprasRealizadas.razor" />
   </ItemGroup>
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Pages\Carousel.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\ComprasRealizadas.razor" />
   </ItemGroup>
 
 </Project>

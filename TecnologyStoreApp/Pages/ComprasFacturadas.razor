@@ -1,0 +1,109 @@
+﻿@page "/comprasFacturadas"
+@using TecnologyStoreApp.Data
+
+<h1 style="color: #0974f1;text-align:center; font-family:sans-serif;">
+    C o m p r a s <br /> F a c t u r a d a s
+</h1>
+<br />
+<div class="input-group mb-3">
+    <input type="text" class="form-control" @bind="filtro" placeholder="Buscar Facturas por Cliente o Método de Pago">
+    <button class="btn btn-outline-secondary" type="button">Buscar</button>
+</div>
+<br />
+<div>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>ID Factura</th>
+                <th>Nombre Cliente</th>
+                <th>Dirección de Entrega</th>
+                <th>Producto Seleccionado</th>
+                <th>Color</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total a Pagar</th>
+                <th>Método de Pago</th>
+                <th>Acciones</th> <!-- Agregar una columna para las acciones -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detallesFactura in detallesFactura.Where(d => string.IsNullOrEmpty(filtro) || d.nombreCliente.Contains(filtro) || d.metodoPago.Contains(filtro)))
+            {
+                <tr>
+                    <td>@detallesFactura.FacturaId</td>
+                    <td>@detallesFactura.nombreCliente</td>
+                    <td>@detallesFactura.direccionEntrega</td>
+                    <td>@detallesFactura.nombreProductoSeleccionado</td>
+                    <td>@detallesFactura.colorSeleccionado</td>
+                    <td>@detallesFactura.cantidadSeleccionada</td>
+                    <td>@detallesFactura.precioProductoSeleccionado</td>
+                    <td>@detallesFactura.totalApagar</td>
+                    <td>@detallesFactura.metodoPago</td>
+                    <td>
+                        <!-- Botón de eliminar -->
+                        <button class="btn btn-danger" @onclick="() => EliminarFactura(detallesFactura.FacturaId)">Eliminar</button>
+                        <!-- Botón de actualizar -->
+                      @*  <button class="btn btn-primary" @onclick="() => ActualizarFactura(detallesFactura.FacturaId)">Actualizar</button>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+
+    List<DetallesFactura> detallesFactura = new List<DetallesFactura>();
+    Metodos metodos = new Metodos();
+
+    string filtro = "";
+
+    protected async override Task OnInitializedAsync()
+    {
+        try
+        {
+            // Obtener los detalles de factura de forma asincrónica y agregarlos a la lista existente
+            detallesFactura.AddRange(await metodos.GetDetallesFacturaAsync());
+        }
+        catch (Exception ex)
+        {
+            // Manejar cualquier excepción que pueda ocurrir
+            Console.WriteLine($"Error al inicializar: {ex.Message}");
+        }
+    }
+
+    // Método para eliminar una factura
+    private async Task EliminarFactura(int facturaId)
+    {
+        try
+        {
+            // Llamar al método para eliminar la factura utilizando el ID proporcionado
+            await metodos.EliminarDetallesFacturaAsync(facturaId);
+            // Actualizar la lista de detalles de factura después de eliminar
+            detallesFactura = await metodos.GetDetallesFacturaAsync();
+        }
+        catch (Exception ex)
+        {
+            // Manejar cualquier excepción que pueda ocurrir
+            Console.WriteLine($"Error al eliminar la factura: {ex.Message}");
+        }
+    }
+
+    //// Método para actualizar una factura
+    //private async Task ActualizarFactura(int facturaId)
+    //{
+    //    try
+    //    {
+    //        // Llamar al método para actualizar la factura utilizando el ID proporcionado
+    //        await metodos.ActualizarDetallesFacturaAsync(facturaId);
+    //        // Actualizar la lista de detalles de factura después de actualizar
+    //        detallesFactura = await metodos.GetDetallesFacturaAsync();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // Manejar cualquier excepción que pueda ocurrir
+    //        Console.WriteLine($"Error al actualizar la factura: {ex.Message}");
+    //    }
+    //}
+}
+

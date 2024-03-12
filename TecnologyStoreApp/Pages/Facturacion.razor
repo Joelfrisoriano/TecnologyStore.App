@@ -1,4 +1,6 @@
 ﻿@page "/facturacion"
+@using TecnologyStoreApp.Data
+@using Microsoft.AspNetCore.Components.Forms
 
 <h1 style="color: #0974f1;text-align:center; font-family:sans-serif;">
     F a c t u r a c i ó n
@@ -21,20 +23,20 @@
         </select>
         <div style="margin:5px;">
             <label>Nombre del Cliente:</label>
-            <input type="text" @bind="nombreCliente" />
+            <InputText @bind-Value="detallesFactura.nombreCliente" />
         </div>
         <div style="margin:5px;">
             <label>Dirección de Entrega:</label>
-            <input type="text" @bind="direccionEntrega" />
+            <InputText @bind-Value="detallesFactura.direccionEntrega" />
         </div>
         <div style="margin:5px;">
             <label>Producto seleccionado:</label>
-            <input type="text" @bind="nombreProductoSeleccionado" readonly />
+            <InputText @bind-Value="detallesFactura.nombreProductoSeleccionado" readonly />
         </div>
 
         <div style="margin:5px;">
             <label>Color:</label>
-            <select @bind="colorSeleccionado">
+            <select @bind="detallesFactura.colorSeleccionado">
                 @foreach (var color in coloresDisponibles)
                 {
                     <option value="@color">@color</option>
@@ -43,39 +45,43 @@
         </div>
         <div style="margin:5px;">
             <label>Cantidad:</label>
-            <input type="number" @bind="cantidadSeleccionada" @oninput="CalcularTotal" min="1" />
+            <InputNumber @bind-Value="detallesFactura.cantidadSeleccionada" @oninput="CalcularTotal" min="1" />
         </div>
         <div style="margin:5px;">
             <label>Precio:</label>
-            <input type="text" @bind="precioProductoSeleccionado" readonly />
+            <InputText @bind-Value="precioProductoSeleccionadoString" readonly />
         </div>
         <div style="margin:5px;">
             <label>Total a pagar:</label>
-            <input type="text" @bind="totalAPagar" readonly />
+            <InputText @bind-Value="totalAPagarString" readonly />
         </div>
         <div style="margin:5px;">
             <label>Método de Pago:</label>
-            <input type="radio" id="efectivo" name="metodoPago" value="Efectivo" @*@bind="metodoPago*@" />
-            <label for="efectivo">Efectivo</label>
-            <input type="radio" id="tarjeta" name="metodoPago" value="Tarjeta" @*@bind="metodoPago*@" />
-            <label for="tarjeta">Tarjeta</label>
+            <select @bind="detallesFactura.metodoPago">
+                <option value="@efectivo">Efectivo</option>
+                <option value="@tarjeta">Tarjeta</option>
+            </select>
         </div>
-        <button class="btn btn-success" @onclick="EnviarCompra">Enviar Compra</button>
-        @*<button  @onclick="CancelarCompra">Cancelar</button>*@
+        <div class="form-group">
+            <button @onclick="EnviarInformacion" class="btn btn-primary">Enviar Información</button>
+        </div>
         <a href="/Smartphones" class="btn btn-danger"> Cancelar</a>
     </div>
 </div>
 
 @code {
-    private string nombreCliente;
-    private string direccionEntrega;
-    private string colorSeleccionado;
-    private string metodoPago;
+
+    DetallesFactura detallesFactura = new DetallesFactura();
+    Metodos metodos = new Metodos();
+
     private string selectedImageUrl;
-    private string nombreProductoSeleccionado;
     private decimal precioProductoSeleccionado;
-    private int cantidadSeleccionada = 1;
     private decimal totalAPagar;
+    private string precioProductoSeleccionadoString;
+    private string totalAPagarString;
+    private string efectivo = "Efectivo";
+    private string tarjeta = "Tarjeta";
+
 
     // Lista de imágenes disponibles
     private List<ImagenDisponible> imagenesDisponibles = new List<ImagenDisponible>
@@ -107,24 +113,38 @@
         var selectedImage = imagenesDisponibles.FirstOrDefault(i => i.Url == selectedImageUrl);
         if (selectedImage != null)
         {
-            nombreProductoSeleccionado = selectedImage.Nombre;
+            detallesFactura.nombreProductoSeleccionado = selectedImage.Nombre;
             precioProductoSeleccionado = selectedImage.Precio;
+            precioProductoSeleccionadoString = precioProductoSeleccionado.ToString(); // Convertir a cadena
             CalcularTotal(); // Llama a CalcularTotal después de establecer el producto seleccionado
         }
     }
 
-
     private void CalcularTotal()
     {
-        totalAPagar = cantidadSeleccionada * precioProductoSeleccionado;
+        totalAPagar = detallesFactura.cantidadSeleccionada * precioProductoSeleccionado;
+        totalAPagarString = totalAPagar.ToString(); // Convertir a cadena
     }
 
-
-    private void EnviarCompra()
+    async Task EnviarInformacion()
     {
-        // Aquí puedes agregar la lógica para enviar la compra
-        // Por ejemplo, puedes enviar los datos al servidor para procesar la cotización
+        try
+        {
+            detallesFactura.totalApagar = totalAPagar; // Cambiado de totalApagar a totalAPagar
+            await metodos.InsertarDetallesFacturaAsync(detallesFactura);
+
+            // Limpiar los campos después de enviar la información
+            detallesFactura = new DetallesFactura();
+            // NavigationManager.NavigateTo("/otrapagina");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al enviar información: {ex.Message}");
+        }
     }
+
 }
+
+
 
 

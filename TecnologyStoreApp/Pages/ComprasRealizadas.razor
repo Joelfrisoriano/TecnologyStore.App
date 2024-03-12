@@ -1,0 +1,66 @@
+﻿@page "/ComprasRealizadas"
+@using TecnologyStoreApp.Data
+
+
+<h1 style="color: #0974f1;text-align:center; font-family:sans-serif;">
+	C o m p r a s  R e a l i z a d a s
+</h1>
+<input type="text" @bind="filtro" placeholder="Buscar por Cliente o Método de Pago" />
+
+<h3>Detalles de la Factura</h3>
+
+<div>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>ID Factura</th>
+                <th>Nombre Cliente</th>
+                <th>Dirección de Entrega</th>
+                <th>Producto Seleccionado</th>
+                <th>Color</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total a Pagar</th>
+                <th>Método de Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detallesFactura in detallesFactura.Where(d => string.IsNullOrEmpty(filtro) || d.nombreCliente.Contains(filtro) || d.metodoPago.Contains(filtro)))
+            {                   
+                <tr>            
+                    <td>@detallesFactura.FacturaId</td>
+                    <td>@detallesFactura.nombreCliente</td>
+                    <td>@detallesFactura.direccionEntrega</td>
+                    <td>@detallesFactura.nombreProductoSeleccionado</td>
+                    <td>@detallesFactura.colorSeleccionado</td>
+                    <td>@detallesFactura.cantidadSeleccionada</td>
+                    <td>@detallesFactura.precioProductoSeleccionado</td>
+                    <td>@detallesFactura.totalApagar</td>
+                    <td>@detallesFactura.metodoPago</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+
+    List<DetallesFactura> detallesFactura = new List<DetallesFactura>();
+    Metodos metodos = new Metodos();
+
+    string filtro = "";
+
+    protected async override Task OnInitializedAsync()
+    {
+        try
+        {
+            // Obtener los detalles de factura de forma asincrónica y agregarlos a la lista existente
+            detallesFactura.AddRange(await metodos.GetDetallesFacturaAsync());
+        }
+        catch (Exception ex)
+        {
+            // Manejar cualquier excepción que pueda ocurrir
+            Console.WriteLine($"Error al inicializar: {ex.Message}");
+        }
+    }
+}
